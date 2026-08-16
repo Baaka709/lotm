@@ -1,0 +1,366 @@
+/* ============================================================
+   Theme: "Foggy London" -- a quiet, occult reading room.
+   Dark mode only. Built for late-night reading on phone or laptop.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --bg-color:      #0b0c10;
+  --text-main:     #d9d3c1;
+  --text-muted:    #8b8fa3;
+  --accent-gold:   #b9925a;
+  --accent-wine:   #6e2b2b;
+  --card-bg:       #121319;
+  --card-border:   #24252f;
+
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-body:    'EB Garamond', Georgia, 'Times New Roman', serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg-color);
+}
+
+body {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 90px;
+  font-family: var(--font-body);
+  font-size: 19px;
+  line-height: 1.85;
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Faint gaslight glow, fixed so it doesn't scroll with long chapters */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 900px 500px at 50% -10%, rgba(185, 146, 90, 0.08), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 100%, rgba(30, 20, 45, 0.5), transparent 65%);
+  pointer-events: none;
+}
+
+::selection {
+  background: var(--accent-gold);
+  color: #0b0c10;
+}
+
+/* -- Reading progress bar (chapter pages only) ------------------- */
+.progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-border);
+  z-index: 50;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent-gold);
+}
+
+/* -- Side margin ornament (wide / laptop screens only) ----------- */
+.spine {
+  display: none;
+  position: fixed;
+  left: 28px;
+  top: 50%;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.chapter-mark {
+  display: none;
+  position: fixed;
+  right: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 108px;
+  line-height: 1;
+  color: var(--accent-gold);
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+@media (min-width: 1080px) {
+  .spine, .chapter-mark { display: block; }
+}
+
+/* -- Navigation --------------------------------------------------- */
+nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-display);
+}
+
+nav a {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  color: var(--text-muted);
+  background: var(--card-bg);
+  padding: 11px 14px;
+  border-radius: 2px;
+  border: 1px solid var(--card-border);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  outline: none;
+}
+
+nav:first-of-type { margin-bottom: 40px; }
+nav:last-of-type  { margin-top: 56px; }
+
+/* -- Title block ---------------------------------------------------- */
+.eyebrow {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+}
+
+h1 {
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 27px;
+  letter-spacing: 0.01em;
+  color: #f1ece0;
+  margin-bottom: 10px;
+}
+
+.meta {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+
+/* Small flourish beneath the title, standing in for a chapter seal */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 0 44px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  max-width: 180px;
+  height: 1px;
+  background: var(--card-border);
+}
+
+.divider::before { background: linear-gradient(to left, var(--card-border), transparent); }
+.divider::after  { background: linear-gradient(to right, var(--card-border), transparent); }
+
+.divider span {
+  width: 7px;
+  height: 7px;
+  background: var(--accent-gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* -- Prose ------------------------------------------------------------ */
+main p {
+  margin-bottom: 1.4em;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+main p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.3em;
+  line-height: 0.78;
+  float: left;
+  padding: 0.05em 0.09em 0 0;
+  color: var(--accent-gold);
+}
+
+/* -- Key events card ---------------------------------------------------- */
+.key-events {
+  position: relative;
+  margin-top: 56px;
+  padding: 26px 28px 22px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 3px;
+}
+
+.key-events::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 26px;
+  right: 26px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent-gold), transparent);
+}
+
+.key-events h2 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+}
+
+.key-events ul {
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--text-muted);
+  list-style: none;
+}
+
+.key-events li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 11px;
+  line-height: 1.6;
+}
+
+.key-events li:last-child { margin-bottom: 0; }
+
+.key-events li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-wine);
+  transform: rotate(45deg);
+}
+
+/* -- Index / cover page --------------------------------------------------- */
+.index-list {
+  margin-top: 8px;
+  border-top: 1px solid var(--card-border);
+}
+
+.index-entry {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--card-border);
+  text-decoration: none;
+  color: var(--text-main);
+  transition: padding-left 0.2s ease, color 0.2s ease;
+}
+
+.index-entry:hover,
+.index-entry:focus-visible {
+  color: var(--accent-gold);
+  padding-left: 10px;
+  outline: none;
+}
+
+.index-entry .num {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+  min-width: 58px;
+  flex-shrink: 0;
+}
+
+.index-entry .title {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 18px;
+}
+
+.index-entry .stat {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.index-empty {
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--text-muted);
+  padding: 40px 0;
+}
+
+/* -- Mobile ------------------------------------------------------------ */
+@media (max-width: 600px) {
+  body {
+    padding: 28px 18px 64px;
+    font-size: 17.5px;
+  }
+
+  h1 { font-size: 22px; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.16em; }
+  .meta { font-size: 11px; margin-bottom: 20px; }
+  .divider { margin-bottom: 34px; }
+  .divider::before, .divider::after { max-width: 60px; }
+
+  main p { text-align: left; hyphens: none; }
+  main p:first-of-type::first-letter { font-size: 2.6em; }
+
+  nav a { font-size: 11px; padding: 9px 10px; }
+
+  .key-events { padding: 20px 18px 18px; }
+  .key-events ul { font-size: 16px; }
+
+  .index-entry { padding: 14px 2px; }
+  .index-entry .title { font-size: 16px; }
+  .index-entry .num { min-width: 46px; font-size: 12px; }
+  .index-entry .stat { font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  nav a { transition: none; }
+}
